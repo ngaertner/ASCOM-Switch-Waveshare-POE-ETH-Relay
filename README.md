@@ -8,3 +8,4 @@ Preparation:
 3. In "Advanced Settings" change "Transfer Protocol" to "Modbus_TCP Protocol"
 4. In "Network" switch to "Work Mode "TCP Server" and "Port" "502"
 5. Adjust IP adress if necessary
+6. "Mofdify Setting" and "Restart Dev"
