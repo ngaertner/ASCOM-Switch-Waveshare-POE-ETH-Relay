@@ -388,12 +388,6 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                         numSwitch = 8;
                     }
 
-                    if (debugState)
-                    {
-                        MessageBox.Show($"DEBUG: Number of Switches: {numSwitch}");
-                    }
-
-
                     Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                     IAsyncResult result = soc.BeginConnect(ipAddress, ipPort, null, null);
@@ -737,11 +731,6 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 throw new DriverException($"Switch could not be read: {id}");
 
             };
-
-            if (switchStates[id])
-            {
-                MessageBox.Show($"State: {id} -> {switchStates[id]}");
-            }
 
             return switchStates[id];
         }
