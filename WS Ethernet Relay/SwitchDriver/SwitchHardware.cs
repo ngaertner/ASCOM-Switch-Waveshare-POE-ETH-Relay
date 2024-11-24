@@ -124,9 +124,11 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
         internal static TraceLogger tl; // Local server's trace logger object for diagnostic log with information that you specify
         internal static bool debugState;
         internal static Socket soc;
-        internal static byte[] commandRelayStatus = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x01, 0x00, 0x00, 0x00, 0x08 }; // 01 01 00 00 00 08 3D CC
-        internal static byte[] commandInputStatus = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x02, 0x00, 0x00, 0x00, 0x08 }; // 01 02 00 00 00 08 79 CC
-        internal static byte[] commandSwitchRelay = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x05, 0x00, 0x00, 0xFF, 0x00 };
+        internal static byte[] commandRelayStatus   = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x01, 0x00, 0x00, 0x00, 0x08 }; // 01 01 00 00 00 08 3D CC
+        internal static byte[] commandInputStatus   = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x02, 0x00, 0x00, 0x00, 0x08 }; // 01 02 00 00 00 08 79 CC
+        internal static byte[] commandSwitchRelay   = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x05, 0x00, 0x00, 0xFF, 0x00 };
+        internal static byte[] commandFlashOnRelay  = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x05, 0x02, 0x00, 0x00, 0x05 }; // 01 05 02 00 00 05 8D B0
+        internal static byte[] commandFlashOffRelay = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x05, 0x02, 0x00, 0x00, 0x05 }; // 01 05 02 00 00 05 8D B0
 
         internal static DateTime lastRefreshTime;
 
@@ -387,12 +389,6 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                     {
                         numSwitch = 8;
                     }
-
-                    if (debugState)
-                    {
-                        MessageBox.Show($"DEBUG: Number of Switches: {numSwitch}");
-                    }
-
 
                     Socket soc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -723,11 +719,6 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
             };
 
-            if (switchStates[id])
-            {
-                MessageBox.Show($"State: {id} -> {switchStates[id]}");
-            }
-
             return switchStates[id];
         }
 
@@ -749,7 +740,17 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
             //command to switch on switch number 1
             var command = commandSwitchRelay;
-
+            if (switchToggle[id])
+            {
+                if (switchStates[id]) { 
+                    command = commandFlashOffRelay;
+                }
+                else
+                {
+                    command = commandFlashOnRelay;
+                }
+            }
+            
             //modify 10th byte of the command to set the requested switch number
             command[9] = switchAddresses[id];
             if (state == false)
