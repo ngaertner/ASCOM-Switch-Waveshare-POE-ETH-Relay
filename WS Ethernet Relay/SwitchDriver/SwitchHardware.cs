@@ -545,29 +545,10 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
         internal static string inputSevenName = "input seven";
         internal static string inputEightName = "input eight";
 
-
-
-        internal static string[] switchNames = new string[] {
-            portOneName,
-            portTwoName,
-            portThreeName,
-            portFourName,
-            portFiveName,
-            portSixName,
-            portSevenName,
-            portEightName,
-            inputOneName,
-            inputTwoName,
-            inputThreeName,
-            inputFourName,
-            inputFiveName,
-            inputSixName,
-            inputSevenName,
-            inputEightName
-        };
-
+        internal static string[] switchNames = new string[] {portOneName,portTwoName,portThreeName,portFourName,portFiveName,portSixName,portSevenName,portEightName,inputOneName,inputTwoName,inputThreeName,inputFourName,inputFiveName,inputSixName,inputSevenName,inputEightName};
 
         internal static int[] switchModes = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+        internal static short[] switchVisibleMapping = new short[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
         internal static Boolean[] switchVisible = new Boolean[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true };
         internal static Boolean[] switchWritable = new Boolean[] { true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false };
         internal static Boolean[] switchIsInput = new Boolean[] { false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true };
@@ -576,6 +557,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
         internal static Boolean[] switchToggle = new Boolean[] { false, false, false, false, false, false, false, false };
         internal static byte[] switchAddresses = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
         internal static byte[] inputAddresses = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
+
 
         /// <summary>
         /// The number of switches managed by this driver
@@ -588,11 +570,14 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 LogMessage("MaxSwitch Get", numSwitch.ToString());
 
                 short visibleSwitches = 0;
-                foreach (var visible in switchVisible)
-                {
-                    if (visible)
-                    {
+                for (var i = 0; i < switchVisible.Length; i++)
+                {                    
+
+                    if (visible) {
                         visibleSwitches = (short)(visibleSwitches + 1);
+                        switchVisibleMapping[i] = 
+                    } else {
+                        
                     }
                 }
 
