@@ -487,6 +487,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             // comboProtocol
             // 
             this.comboProtocol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboProtocol.Enabled = false;
             this.comboProtocol.FormattingEnabled = true;
             this.comboProtocol.Items.AddRange(new object[] {
             "None",
