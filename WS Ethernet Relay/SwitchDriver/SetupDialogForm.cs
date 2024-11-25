@@ -1,6 +1,7 @@
 using ASCOM.Utilities;
 using System;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -305,11 +306,175 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
         private void comboDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboDevice.SelectedIndex == 1)  {
+            if (comboDevice.SelectedIndex == SwitchHardware.DeviceTypeETH8CHB)  {
                 panelInput.Enabled = true;
             } else
             {
                 panelInput.Enabled = false;
+            }
+
+            SwitchToggle();
+
+        }
+
+        private void comboInput1Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SwitchToggle();
+        }
+
+        private void comboInput2Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SwitchToggle();
+        }
+
+        private void comboInput3Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SwitchToggle();
+        }
+
+        private void comboInput4Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SwitchToggle();
+        }
+
+        private void comboInput5Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SwitchToggle();
+        }
+
+        private void comboInput6Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SwitchToggle();
+        }
+
+        private void comboInput7Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SwitchToggle();
+        }
+
+        private void comboInput8Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SwitchToggle();
+        }
+
+
+        private void SwitchToggle( )
+        {
+
+            if (comboDevice.SelectedIndex != SwitchHardware.DeviceTypeETH8CHB)
+            {
+                checkBoxRelay1Toggle.Enabled = true;
+                checkBoxRelay2Toggle.Enabled = true;
+                checkBoxRelay3Toggle.Enabled = true;
+                checkBoxRelay4Toggle.Enabled = true;
+                checkBoxRelay5Toggle.Enabled = true;
+                checkBoxRelay6Toggle.Enabled = true;
+                checkBoxRelay7Toggle.Enabled = true;
+                checkBoxRelay8Toggle.Enabled = true;
+                return;
+
+            }
+
+
+            if (comboInput1Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay3Toggle.Enabled = false;
+                checkBoxRelay3Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay3Toggle.Enabled = true;
+                checkBoxRelay3Toggle.Checked = SwitchHardware.switchToggle[2];
+            }
+            if (comboInput2Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay2Toggle.Enabled = false;
+                checkBoxRelay2Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay2Toggle.Enabled = true;
+                checkBoxRelay2Toggle.Checked = SwitchHardware.switchToggle[1];
+            }
+            if (comboInput3Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay3Toggle.Enabled = false;
+                checkBoxRelay3Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay3Toggle.Enabled = true;
+                checkBoxRelay3Toggle.Checked = SwitchHardware.switchToggle[2];
+            }
+            if (comboInput4Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay4Toggle.Enabled = false;
+                checkBoxRelay4Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay4Toggle.Enabled = true;
+                checkBoxRelay4Toggle.Checked = SwitchHardware.switchToggle[3];
+            }
+            if (comboInput5Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay5Toggle.Enabled = false;
+                checkBoxRelay5Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay5Toggle.Enabled = true;
+                checkBoxRelay5Toggle.Checked = SwitchHardware.switchToggle[4];
+            }
+            if (comboInput6Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay6Toggle.Enabled = false;
+                checkBoxRelay6Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay6Toggle.Enabled = true;
+                checkBoxRelay6Toggle.Checked = SwitchHardware.switchToggle[5];
+            }
+            if (comboInput7Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay7Toggle.Enabled = false;
+                checkBoxRelay7Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay7Toggle.Enabled = true;
+                checkBoxRelay7Toggle.Checked = SwitchHardware.switchToggle[6];
+            }
+            if (comboInput8Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay8Toggle.Enabled = false;
+                checkBoxRelay8Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay8Toggle.Enabled = true;
+                checkBoxRelay8Toggle.Checked = SwitchHardware.switchToggle[7];
+            }
+
+            if (comboInput8Mode.SelectedIndex > 0)
+            {
+                checkBoxRelay8Toggle.Enabled = false;
+                checkBoxRelay8Toggle.Checked = false;
+
+            }
+            else
+            {
+                checkBoxRelay8Toggle.Enabled = true;
+                checkBoxRelay8Toggle.Checked = SwitchHardware.switchToggle[7];
             }
 
         }
