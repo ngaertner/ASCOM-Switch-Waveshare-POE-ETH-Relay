@@ -402,7 +402,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
                 if (value)
                 {
-
+                    
                     LogMessage("Connected Set", $"Connecting to ip {ipAddress}:{ipPort}");
 
                     numSwitch = MaxSwitch;
