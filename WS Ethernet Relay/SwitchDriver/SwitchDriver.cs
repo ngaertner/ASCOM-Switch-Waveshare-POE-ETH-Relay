@@ -190,17 +190,19 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
         public void SetupDialog()
         {
             try
-            {
-                if (connectedState) // Don't show if already connected
+            {                                
+                if (Connected) // Don't show if already connected
                 {
-                    MessageBox.Show("Already connected, just press OK");
+                    Connected = false;
+                    //connectedState = false; // disconnect...
+                    //MessageBox.Show("Already connected, just press OK");
                 }
-                else // Show dialogue
-                {
+//                else // Show dialogue
+//                {
                     LogMessage("SetupDialog", $"Calling SetupDialog.");
                     SwitchHardware.SetupDialog();
                     LogMessage("SetupDialog", $"Completed.");
-                }
+//                }
             }
             catch (Exception ex)
             {
@@ -370,15 +372,15 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
                     if (value)
                     {
-                        connectedState = true;
                         LogMessage("Connected Set", "Connecting to device");
                         SwitchHardware.Connected = true;
+                        connectedState = true;
                     }
                     else
                     {
-                        connectedState = false;
                         LogMessage("Connected Set", "Disconnecting from device");
                         SwitchHardware.Connected = false;
+                        connectedState = false;
                     }
                 }
                 catch (Exception ex)

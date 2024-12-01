@@ -70,8 +70,8 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             }
 
 
-            SwitchHardware.deviceType     = comboDevice.SelectedIndex;
-            SwitchHardware.deviceProtocol = comboProtocol.SelectedIndex;
+            SwitchHardware.deviceType     = Convert.ToInt16(comboDevice.SelectedIndex);
+            SwitchHardware.deviceProtocol = Convert.ToInt16(comboProtocol.SelectedIndex);
 
             SwitchHardware.switchNames[0] = textBoxRelay1.Text;
             SwitchHardware.switchNames[1] = textBoxRelay2.Text;
@@ -110,14 +110,14 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             SwitchHardware.switchVisible[15] = checkBoxInput8Visible.Checked;
 
 
-            SwitchHardware.switchModes[0] = comboInput1Mode.SelectedIndex;
-            SwitchHardware.switchModes[1] = comboInput2Mode.SelectedIndex;
-            SwitchHardware.switchModes[2] = comboInput3Mode.SelectedIndex;
-            SwitchHardware.switchModes[3] = comboInput4Mode.SelectedIndex;
-            SwitchHardware.switchModes[4] = comboInput5Mode.SelectedIndex;
-            SwitchHardware.switchModes[5] = comboInput6Mode.SelectedIndex;
-            SwitchHardware.switchModes[6] = comboInput7Mode.SelectedIndex;
-            SwitchHardware.switchModes[7] = comboInput8Mode.SelectedIndex;
+            SwitchHardware.switchModes[0] = Convert.ToInt16(comboInput1Mode.SelectedIndex);
+            SwitchHardware.switchModes[1] = Convert.ToInt16(comboInput2Mode.SelectedIndex);
+            SwitchHardware.switchModes[2] = Convert.ToInt16(comboInput3Mode.SelectedIndex);
+            SwitchHardware.switchModes[3] = Convert.ToInt16(comboInput4Mode.SelectedIndex);
+            SwitchHardware.switchModes[4] = Convert.ToInt16(comboInput5Mode.SelectedIndex);
+            SwitchHardware.switchModes[5] = Convert.ToInt16(comboInput6Mode.SelectedIndex);
+            SwitchHardware.switchModes[6] = Convert.ToInt16(comboInput7Mode.SelectedIndex);
+            SwitchHardware.switchModes[7] = Convert.ToInt16(comboInput8Mode.SelectedIndex);
 
             SwitchHardware.switchToggle[0] = checkBoxRelay1Toggle.Checked;
             SwitchHardware.switchToggle[1] = checkBoxRelay2Toggle.Checked;
