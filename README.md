@@ -16,10 +16,10 @@ THE SOFTWARE.
 
 This software is a "Switch" device driver for the ASCOM platform that allows to connect to the following ethernet relay devices:
 
-**Modbus POE ETH Relay [[link](https://www.waveshare.com/modbus-poe-eth-relay.htm)]**
+* **Modbus POE ETH Relay [[link](https://www.waveshare.com/modbus-poe-eth-relay.htm)]**
 8-ch Ethernet Relay Module, Modbus RTU/Modbus TCP Protocol, PoE port Communication, With Various Isolation And Protection Circuits
 
-**Modbus POE ETH Relay (B) [[link](https://www.waveshare.com/modbus-poe-eth-relay-b.htm.htm)]**
+* **Modbus POE ETH Relay (B) [[link](https://www.waveshare.com/modbus-poe-eth-relay-b.htm.htm)]**
 8-ch Ethernet Relay Module (B) With Digital Input, Modbus RTU/Modbus TCP Protocol, PoE Port Communication, With Various Isolation And Protection Circuits
 
 The driver implements all features offered by the device firmware, which include switching and flashing relays and (for the "B" device) reading and automatic processing of digital inputs using linkage options between digital inputs and associated relays.
