@@ -38,7 +38,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
         internal const int DeviceTypeETH8CH = 0;
         internal const int DeviceTypeETH8CHB = 1;
-        internal const int DeviceTypeETH30CH = 2;
+        //internal const int DeviceTypeETH30CH = 2;
 
         internal const int ProtocolTypeModBusRTU = 0;
         internal const int ProtocolTypeModBusTCP = 1;

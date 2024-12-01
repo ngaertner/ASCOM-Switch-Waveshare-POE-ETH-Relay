@@ -54,6 +54,29 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 MessageBox.Show("Please enter valid Port Number", "Port is invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            
+            if ( textBoxRelay1.Text == "" ||
+                 textBoxRelay2.Text == "" || 
+                 textBoxRelay3.Text == "" ||
+                 textBoxRelay4.Text == "" ||
+                 textBoxRelay5.Text == "" ||
+                 textBoxRelay6.Text == "" ||
+                 textBoxRelay7.Text == "" ||
+                 textBoxRelay8.Text == "" ||
+                 textBoxInput1.Text == "" ||
+                 textBoxInput2.Text == "" ||
+                 textBoxInput3.Text == "" ||
+                 textBoxInput4.Text == "" ||
+                 textBoxInput5.Text == "" ||
+                 textBoxInput6.Text == "" ||
+                 textBoxInput7.Text == "" ||
+                 textBoxInput8.Text == "" 
+                 )
+            {
+                MessageBox.Show("Please provide a valid name - a relay / switch name must not be empty!", "Relay / Input Name is empty", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
 
 
             SwitchHardware.deviceType     = Convert.ToInt16(comboDevice.SelectedIndex);

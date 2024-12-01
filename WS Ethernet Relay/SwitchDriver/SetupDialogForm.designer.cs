@@ -441,8 +441,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.comboDevice.FormattingEnabled = true;
             this.comboDevice.Items.AddRange(new object[] {
             "Modbus POE ETH Relay",
-            "Modbus POE ETH Relay (B)",
-            "Modbus POE ETH Relay 30CH"});
+            "Modbus POE ETH Relay (B)"});
             this.comboDevice.Location = new System.Drawing.Point(72, 12);
             this.comboDevice.Name = "comboDevice";
             this.comboDevice.Size = new System.Drawing.Size(179, 21);
