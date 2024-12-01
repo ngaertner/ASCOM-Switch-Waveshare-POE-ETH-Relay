@@ -25,7 +25,7 @@ This software is a "Switch" device driver for the ASCOM platform that allows to 
 The driver implements all features offered by the device firmware, which include switching and flashing relays and (for the "B" device) reading and automatic processing of digital inputs using linkage options between digital inputs and associated relays.
 
 The Waveshare ethernet relays are cheap (compared to dedicated astronomical hardware), run stable and and are very versatile.
-They are powered by Pover over Ethernet (PoE IEEE 802.3af), an standard DC Power port or via screw terminal (7~36V DC) and the switches and inputs are adressed using TCP based communication via the LAN port.
+They are powered by Pover over Ethernet (PoE IEEE 802.3af), a standard DC power port or via screw terminal (7~36V DC) and the switches and inputs are adressed using TCP based communication via the LAN port.
 Note that for these devices a LAN network is mandatory - it is not possible to connect the Relays directly to an observatory PC.
 Typical use-cases are to control devices and digital inputs within a (remote) observatory via LAN (independent from PCs), and automate the control of devices during astrophotographic sequences from popular softwares like N.I.N.A.
 
