@@ -40,19 +40,19 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
         internal const int DeviceTypeETH8CHB = 1;
         internal const int DeviceTypeETH30CH = 2;
 
-        internal const int ProtocolTypeTCP = 0;
+        internal const int ProtocolTypeModBusRTU = 0;
         internal const int ProtocolTypeModBusTCP = 1;
 
         internal const string IpAddressProfileName = "IP Address";
         internal const string IpAddressDefault = "192.168.1.200";
         internal const string IpPortProfileName = "Port";
-        internal const string IpPortDefault = "502";
+        internal const string IpPortDefault = "4196";
 
         internal const string DeviceTypeProfileName = "Device Type";
         internal static short deviceType;
         internal const int DeviceTypeDefault = DeviceTypeETH8CHB;
         internal const string DeviceProtocolProfileName = "Device Protocol";
-        internal const int DeviceProtocolDefault = ProtocolTypeModBusTCP;
+        internal const int DeviceProtocolDefault = ProtocolTypeModBusRTU;
 
         internal static short deviceProtocol;
 

@@ -32,20 +32,6 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             tl.Enabled = chkTrace.Checked;
             SwitchHardware.debugState = checkBoxDebug.Checked;
 
-            // Update the COM port variable if one has been selected
-            /*        if (comboBoxComPort.SelectedItem is null) // No COM port selected
-                    {
-                        tl.LogMessage("Setup OK", $"New configuration values - COM Port: Not selected");
-                    }
-                    else if (comboBoxComPort.SelectedItem.ToString() == NO_PORTS_MESSAGE)
-                    {
-                        tl.LogMessage("Setup OK", $"New configuration values - NO COM ports detected on this PC.");
-                    }
-                    else // A valid COM port has been selected
-                    {
-            */
-
-
             IPAddress ipAddress;
             if (IPAddress.TryParse(textBoxIP.Text, out ipAddress) == false)
             {
@@ -129,10 +115,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             SwitchHardware.switchToggle[7] = checkBoxRelay8Toggle.Checked;
 
 
-            //            SwitchHardware.comPort   = (string)comboBoxComPort.SelectedItem;
             tl.LogMessage("Setup OK", $"New configuration values - IP: {textBoxIP.Text} Port: {textBoxPort.Text}");
-            //            tl.LogMessage("Setup OK", $"New configuration values - COM Port: {comboBoxComPort.SelectedItem}");
-            //       }
 
             this.DialogResult = DialogResult.OK;
         }
@@ -166,29 +149,6 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             chkTrace.Checked = tl.Enabled;
 
             checkBoxDebug.Checked = SwitchHardware.debugState;
-
-            /*
-            // set the list of COM ports to those that are currently available
-            comboBoxComPort.Items.Clear(); // Clear any existing entries
-            using (Serial serial = new Serial()) // User the Se5rial component to get an extended list of COM ports
-            {
-                comboBoxComPort.Items.AddRange(serial.AvailableCOMPorts);
-            }
-
-            // If no ports are found include a message to this effect
-            if (comboBoxComPort.Items.Count == 0)
-            {
-                comboBoxComPort.Items.Add(NO_PORTS_MESSAGE);
-                comboBoxComPort.SelectedItem = NO_PORTS_MESSAGE;
-            }
-
-             select the current port if possible
-            if (comboBoxComPort.Items.Contains(SwitchHardware.comPort))
-            {
-                comboBoxComPort.SelectedItem = SwitchHardware.comPort;
-            }
-            tl.LogMessage("InitUI", $"Set UI controls to Trace: {chkTrace.Checked}, COM Port: {comboBoxComPort.SelectedItem}");
-            */
 
 
             textBoxIP.Text = SwitchHardware.ipAddress;
@@ -296,12 +256,8 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
         private void VisitLink()
         {
-            // Change the color of the link text by setting LinkVisited
-            // to true.
-            linkLabel1.LinkVisited = true;
-            //Call the Process.Start method to open the default browser
-            //with a URL:
-            System.Diagnostics.Process.Start(linkLabel1.Text);
+            linkURL.LinkVisited = true;
+            System.Diagnostics.Process.Start(linkURL.Text);
         }
 
         private void comboDevice_SelectedIndexChanged(object sender, EventArgs e)
