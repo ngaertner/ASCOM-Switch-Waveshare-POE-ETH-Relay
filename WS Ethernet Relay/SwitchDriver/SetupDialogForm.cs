@@ -49,7 +49,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 }
 
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Please enter valid Port Number", "Port is invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -271,7 +271,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             {
                 VisitLink();
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("Unable to open link that was clicked.");
             }
@@ -458,37 +458,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
         }
 
-        /*
-private void textBoxPort_KeyPress(object sender, KeyPressEventArgs e)
-{
-if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
-(e.KeyChar != '.'))
-{
-e.Handled = true;
-}
 
-// only allow one decimal point
-if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-{
-e.Handled = true;
-}
-}
-
-private void textBoxIP_KeyPress(object sender, KeyPressEventArgs e)
-{
-if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
-(e.KeyChar != '.'))
-{
-e.Handled = true;
-}
-
-// only allow one decimal point
-if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-{
-e.Handled = true;
-}
-}
-*/
     }
 
 }

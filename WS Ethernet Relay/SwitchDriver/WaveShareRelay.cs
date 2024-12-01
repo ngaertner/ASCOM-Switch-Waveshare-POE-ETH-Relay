@@ -353,8 +353,6 @@ internal class WaveShareRelay
             if (refreshDiffMilliseconds.TotalMilliseconds > 200 || ForceRefresh == true)
             {
 
-                byte[] command;
-
                 lastRefreshTime = DateTime.Now;
 
                 if (deviceProtocol == ProtocolTypeModBusTCP)
