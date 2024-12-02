@@ -617,10 +617,11 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.comboInput8Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInput8Mode.FormattingEnabled = true;
             this.comboInput8Mode.Items.AddRange(new object[] {
-            "Normal mode",
-            "Linkage mode",
-            "Toggle mode",
-            "Jump mode"});
+            "Normal Mode",
+            "Linkage Mode",
+            "Toggle Mode",
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput8Mode.Location = new System.Drawing.Point(270, 193);
             this.comboInput8Mode.Name = "comboInput8Mode";
             this.comboInput8Mode.Size = new System.Drawing.Size(108, 21);
@@ -637,10 +638,11 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.comboInput7Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInput7Mode.FormattingEnabled = true;
             this.comboInput7Mode.Items.AddRange(new object[] {
-            "Normal mode",
-            "Linkage mode",
-            "Toggle mode",
-            "Jump mode"});
+            "Normal Mode",
+            "Linkage Mode",
+            "Toggle Mode",
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput7Mode.Location = new System.Drawing.Point(270, 167);
             this.comboInput7Mode.Name = "comboInput7Mode";
             this.comboInput7Mode.Size = new System.Drawing.Size(108, 21);
@@ -657,10 +659,11 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.comboInput6Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInput6Mode.FormattingEnabled = true;
             this.comboInput6Mode.Items.AddRange(new object[] {
-            "Normal mode",
-            "Linkage mode",
-            "Toggle mode",
-            "Jump mode"});
+            "Normal Mode",
+            "Linkage Mode",
+            "Toggle Mode",
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput6Mode.Location = new System.Drawing.Point(270, 142);
             this.comboInput6Mode.Name = "comboInput6Mode";
             this.comboInput6Mode.Size = new System.Drawing.Size(108, 21);
@@ -677,10 +680,11 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.comboInput5Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInput5Mode.FormattingEnabled = true;
             this.comboInput5Mode.Items.AddRange(new object[] {
-            "Normal mode",
-            "Linkage mode",
-            "Toggle mode",
-            "Jump mode"});
+            "Normal Mode",
+            "Linkage Mode",
+            "Toggle Mode",
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput5Mode.Location = new System.Drawing.Point(270, 116);
             this.comboInput5Mode.Name = "comboInput5Mode";
             this.comboInput5Mode.Size = new System.Drawing.Size(108, 21);
@@ -697,10 +701,11 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.comboInput4Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInput4Mode.FormattingEnabled = true;
             this.comboInput4Mode.Items.AddRange(new object[] {
-            "Normal mode",
-            "Linkage mode",
-            "Toggle mode",
-            "Jump mode"});
+            "Normal Mode",
+            "Linkage Mode",
+            "Toggle Mode",
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput4Mode.Location = new System.Drawing.Point(270, 90);
             this.comboInput4Mode.Name = "comboInput4Mode";
             this.comboInput4Mode.Size = new System.Drawing.Size(108, 21);
@@ -717,10 +722,11 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.comboInput3Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInput3Mode.FormattingEnabled = true;
             this.comboInput3Mode.Items.AddRange(new object[] {
-            "Normal mode",
-            "Linkage mode",
-            "Toggle mode",
-            "Jump mode"});
+            "Normal Mode",
+            "Linkage Mode",
+            "Toggle Mode",
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput3Mode.Location = new System.Drawing.Point(270, 63);
             this.comboInput3Mode.Name = "comboInput3Mode";
             this.comboInput3Mode.Size = new System.Drawing.Size(108, 21);
@@ -737,10 +743,11 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.comboInput2Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInput2Mode.FormattingEnabled = true;
             this.comboInput2Mode.Items.AddRange(new object[] {
-            "Normal mode",
-            "Linkage mode",
-            "Toggle mode",
-            "Jump mode"});
+            "Normal Mode",
+            "Linkage Mode",
+            "Toggle Mode",
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput2Mode.Location = new System.Drawing.Point(270, 38);
             this.comboInput2Mode.Name = "comboInput2Mode";
             this.comboInput2Mode.Size = new System.Drawing.Size(108, 21);
@@ -753,14 +760,16 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             "Normal Mode",
             "Linkage Mode",
             "Flip Mode",
-            "Jump Mode"});
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput1Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboInput1Mode.FormattingEnabled = true;
             this.comboInput1Mode.Items.AddRange(new object[] {
-            "Normal mode",
-            "Linkage mode",
-            "Toggle mode",
-            "Jump mode"});
+            "Normal Mode",
+            "Linkage Mode",
+            "Toggle Mode",
+            "Jump Mode",
+            "No Mode Change"});
             this.comboInput1Mode.Location = new System.Drawing.Point(270, 12);
             this.comboInput1Mode.Name = "comboInput1Mode";
             this.comboInput1Mode.Size = new System.Drawing.Size(108, 21);

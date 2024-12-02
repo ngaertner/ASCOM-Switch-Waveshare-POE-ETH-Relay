@@ -26,6 +26,8 @@ internal class WaveShareRelay
     internal const short SwitchModeLinkage = 1;
     internal const short SwitchModeToggle = 2;
     internal const short SwitchModeJump = 3;
+    internal const short SwitchModeNoChange = 4;
+    internal const short SwitchModeInvalid = -1;
 
     internal static byte[] commandRTURelayStatus = new byte[] { 0x01, 0x01, 0x00, 0x00, 0x00, 0x08 }; // 01 01 00 00 00 08 3D CC
     internal static byte[] commandRTUInputStatus = new byte[] { 0x01, 0x02, 0x00, 0x00, 0x00, 0x08 }; // 01 01 00 00 00 08 3D CC
@@ -38,6 +40,7 @@ internal class WaveShareRelay
     internal static byte[] commandRTUModeLinkage = new byte[] { 0x01, 0x06, 0x10, 0x00, 0x00, 0x01 }; //01 06 10 00 00 01 4C CA
     internal static byte[] commandRTUModeToggle = new byte[] { 0x01, 0x06, 0x10, 0x00, 0x00, 0x02 }; //01 06 10 00 00 02 4C CA
     internal static byte[] commandRTUModeJump = new byte[] { 0x01, 0x06, 0x10, 0x00, 0x00, 0x03 }; //01 06 10 00 00 03 4C CA
+    internal static byte[] commandRTUReadMode = new byte[] { 0x01, 0x03, 0x10, 0x00, 0x00, 0x01 }; //01 03 10 00 00 01 80 CA
 
 
     internal static byte[] commandRelayStatus = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x01, 0x00, 0x00, 0x00, 0x08 }; // 01 01 00 00 00 08 3D CC
@@ -50,6 +53,7 @@ internal class WaveShareRelay
     internal static byte[] commandModeLinkage = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x06, 0x10, 0x00, 0x00, 0x01 }; //01 06 10 00 00 01 4C CA
     internal static byte[] commandModeToggle = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x06, 0x10, 0x00, 0x00, 0x02 }; //01 06 10 00 00 02 4C CA
     internal static byte[] commandModeJump = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x06, 0x10, 0x00, 0x00, 0x03 }; //01 06 10 00 00 03 4C CA
+    internal static byte[] commandReadMode = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x03, 0x10, 0x00, 0x00, 0x01 }; //01 03 10 00 00 01 80 CA
 
     internal static byte[] relayAddresses = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
     internal static byte[] inputAddresses = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
@@ -173,6 +177,7 @@ internal class WaveShareRelay
         return connected;
     }
 
+    
     internal bool SetRelayState(short id, bool state, bool flash = false)
     {
 
@@ -255,6 +260,48 @@ internal class WaveShareRelay
 
         RefreshStates(true);
         return true;
+    }
+
+    internal short GetRelayMode(short id)
+    {
+        if (!connected)
+        {
+            return -1;
+        }
+
+        byte[] command;
+        
+
+        if (deviceProtocol == ProtocolTypeModBusTCP)
+        {
+            command = commandReadMode;
+            command[9] = relayAddresses[id];
+        }
+        else
+        {
+            command = commandRTUReadMode;
+            command[3] = relayAddresses[id];
+            command = prepareRTUCommand(command);
+        }
+
+        byte[] buffer = SendCommand(command);
+        if (buffer == null) return -1;
+
+        switch (buffer[4])
+        {
+            case 0x00:
+                return SwitchModeNormal;
+            case 0x01:
+                return SwitchModeLinkage;
+            case 0x02:
+                return SwitchModeToggle;
+            case 0x03:
+                return SwitchModeJump;
+            default:
+                return SwitchModeInvalid;
+        }
+
+
     }
 
     internal bool SetRelayMode(short id, short mode)

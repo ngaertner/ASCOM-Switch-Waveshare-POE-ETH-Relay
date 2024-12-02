@@ -58,10 +58,12 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
         internal const string DebugStateProfileName = "Debug";
 
 
-        internal const int SwitchModeNormal = 0;
-        internal const int SwitchModeLinkage = 1;
-        internal const int SwitchModeToggle = 2;
-        internal const int SwitchModeJump = 3;
+        internal const int SwitchModeNormal = WaveShareRelay.SwitchModeNormal;
+        internal const int SwitchModeLinkage = WaveShareRelay.SwitchModeLinkage;
+        internal const int SwitchModeToggle = WaveShareRelay.SwitchModeToggle;
+        internal const int SwitchModeJump = WaveShareRelay.SwitchModeJump;
+        internal const int SwitchModeNoChange = WaveShareRelay.SwitchModeNoChange;
+        internal const int SwitchModeInvalid = WaveShareRelay.SwitchModeInvalid;
 
         internal const string TraceStateProfileName = "Trace Level";
         internal const string TraceStateDefault = "true";
@@ -222,7 +224,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             // Don't permit the setup dialogue if already connected
             if (IsConnected)
                 Connected = false;
-                //MessageBox.Show("Blab la Already connected, just press OK");
+            //MessageBox.Show("Blab la Already connected, just press OK");
 
             using (SetupDialogForm F = new SetupDialogForm(tl))
             {
@@ -370,7 +372,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
             try
             {
-                if (Relay != null)  Relay.Dispose();
+                if (Relay != null) Relay.Dispose();
                 Relay = null;
             }
             catch { }
@@ -392,9 +394,9 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             set
             {
                 LogMessage("Connected", $"Set {value}");
-/*                if (value == IsConnected)
-                    return;
-*/
+                /*                if (value == IsConnected)
+                                    return;
+                */
                 if (value)
                 {
 
@@ -402,13 +404,15 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
                     numSwitch = MaxSwitch;
 
-                    Relay = new WaveShareRelay(deviceType,deviceProtocol);
+                    Relay = new WaveShareRelay(deviceType, deviceProtocol);
 
                     if (Relay.Connect(ipAddress, ipPort))
                     {
                         connectedState = true;
-                    } else {
-                        Connected = false;                        
+                    }
+                    else
+                    {
+                        Connected = false;
                         LogMessage("Connected Set", $"Disconnecting to ip {ipAddress}:{ipPort}");
                         throw new DriverException("Failed to connect server.");
                     }
@@ -423,21 +427,35 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                             continue;
                         }
 
-                        if (Relay.SetRelayMode(intId, switchModes[intId]) == false)
+                        if (switchModes[intId] == SwitchModeNoChange)
                         {
-                            Connected = false;
-                            throw new DriverException("Failed to read relay status from server.");                            
+                            //don't change switch mode - instead fetch current mode
+                            switchModes[intId] = Relay.GetRelayMode(intId);
+                            if (switchModes[intId] == SwitchModeInvalid)
+                            {
+                                throw new DriverException("Failed to get relay mode.");
+                            }
+                        }
+                        else
+                        {
+                            //switch mode
+                            if (Relay.SetRelayMode(intId, switchModes[intId]) == false)
+                            {
+                                Connected = false;
+                                throw new DriverException("Failed to set relay mode.");
+                            }
                         }
 
                     }
 
 
                     // initialize switch status
-                    if (Relay.RefreshStates(true) == false) {
+                    if (Relay.RefreshStates(true) == false)
+                    {
                         Connected = false;
                         throw new DriverException("Failed to read relay status from server.");
                     }
-                    
+
                     try
                     {
                         for (short i = 0; i < numSwitch; i++)
@@ -562,7 +580,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
         internal static short[] switchModes = new short[] { 0, 0, 0, 0, 0, 0, 0, 0 };
         internal static short[] switchHardwareMapping = new short[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-        internal static short[] switchVisibleMapping = new short[]  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+        internal static short[] switchVisibleMapping = new short[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
         internal static Boolean[] switchVisible = new Boolean[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true };
         internal static Boolean[] switchWritable = new Boolean[] { true, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false };
         internal static Boolean[] switchIsInput = new Boolean[] { false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true };
@@ -660,7 +678,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
             if (switchIsInput[intId] == false)
             {
-                desc = $"Relay {intId+1}";
+                desc = $"Relay {intId + 1}";
 
                 switch (switchModes[intId])
                 {
@@ -668,13 +686,13 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                         modeDesc = " - Normal Mode";
                         break;
                     case SwitchModeJump:
-                        modeDesc = $" - Jumps on Input {intId+1} Signal";
+                        modeDesc = $" - Jumps on Input {intId + 1} Signal";
                         break;
                     case SwitchModeToggle:
-                        modeDesc = $" - Toggles on Input {intId+1} Signal";
+                        modeDesc = $" - Toggles on Input {intId + 1} Signal";
                         break;
                     case SwitchModeLinkage:
-                        modeDesc = $" - Linked to Input {intId+1} (Readonly)";
+                        modeDesc = $" - Linked to Input {intId + 1} (Readonly)";
                         break;
                     default:
                         //modeDesc = " - Normal Mode";
@@ -684,22 +702,23 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 if (switchToggle[intId])
                     toggleDesc = " with automatic back toggle";
             }
-            else {
-                desc = $"Digital Input {intId-8+1}";
+            else
+            {
+                desc = $"Digital Input {intId - 8 + 1}";
 
-                switch (switchModes[intId-8])
+                switch (switchModes[intId - 8])
                 {
                     case SwitchModeNormal:
-//                        modeDesc = " - Normal Mode";
+                        //                        modeDesc = " - Normal Mode";
                         break;
                     case SwitchModeJump:
-                        modeDesc = $"  - Toggles Relay {intId-8+1} to Input change";
+                        modeDesc = $"  - Toggles Relay {intId - 8 + 1} to Input change";
                         break;
                     case SwitchModeToggle:
-                        modeDesc = $" - Toggles Relay {intId-8+1} on Input status";
+                        modeDesc = $" - Toggles Relay {intId - 8 + 1} on Input status";
                         break;
                     case SwitchModeLinkage:
-                        modeDesc = $" - Links Relay {intId-8+1} to Input Status";
+                        modeDesc = $" - Links Relay {intId - 8 + 1} to Input Status";
                         break;
                     default:
                         //modeDesc = "Normal Mode";
@@ -759,14 +778,14 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 throw new DriverException($"Switch could not be read: {id}");
             }
 
-            if (switchIsInput[intId]  == false)
+            if (switchIsInput[intId] == false)
             {
                 state = Relay.GetRelayState(intId);
             }
             else
-            {                
+            {
                 //this is a bit hacky... better approach required
-                state = Relay.GetInputState(Convert.ToInt16(intId-8));
+                state = Relay.GetInputState(Convert.ToInt16(intId - 8));
             }
 
             return state;
@@ -787,15 +806,16 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 return;
             }
 
-            if (GetSwitch(id,true) == state) {
+            if (GetSwitch(id, true) == state)
+            {
                 return;
             }
-            
+
             var intId = switchVisibleMapping[id];
 
             if (switchModes[intId] == SwitchModeLinkage)
-            {                
-                throw new DriverException($"Relay is linked to input: {intId+1}");
+            {
+                throw new DriverException($"Relay is linked to input: {intId + 1}");
             }
 
             if (Relay.SetRelayState(intId, state, switchToggle[intId]) == false)
@@ -927,7 +947,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
         {
             get
             {
-                
+
                 if (Relay != null)
                 {
                     connectedState = Relay.Connected();
@@ -936,7 +956,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 {
                     connectedState = false;
                 }
-                
+
 
                 return connectedState;
             }
@@ -962,24 +982,24 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             using (Profile driverProfile = new Profile())
             {
                 driverProfile.DeviceType = "Switch";
-                tl.Enabled     = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, TraceStateProfileName, string.Empty, TraceStateDefault));
-                debugState     = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, DebugStateProfileName, string.Empty, DebugStateDefault));
-                ipPort         = Convert.ToInt32(driverProfile.GetValue(DriverProgId, IpPortProfileName, string.Empty, IpPortDefault));
-                ipAddress      = driverProfile.GetValue(DriverProgId, IpAddressProfileName, string.Empty, IpAddressDefault);
-                deviceType     = Convert.ToInt16(driverProfile.GetValue(DriverProgId, DeviceTypeProfileName, string.Empty, DeviceTypeDefault.ToString()));
+                tl.Enabled = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, TraceStateProfileName, string.Empty, TraceStateDefault));
+                debugState = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, DebugStateProfileName, string.Empty, DebugStateDefault));
+                ipPort = Convert.ToInt32(driverProfile.GetValue(DriverProgId, IpPortProfileName, string.Empty, IpPortDefault));
+                ipAddress = driverProfile.GetValue(DriverProgId, IpAddressProfileName, string.Empty, IpAddressDefault);
+                deviceType = Convert.ToInt16(driverProfile.GetValue(DriverProgId, DeviceTypeProfileName, string.Empty, DeviceTypeDefault.ToString()));
                 deviceProtocol = Convert.ToInt16(driverProfile.GetValue(DriverProgId, DeviceProtocolProfileName, string.Empty, DeviceProtocolDefault.ToString()));
 
-                switchNames[0]  = driverProfile.GetValue(DriverProgId, Relay1NameProfileName, string.Empty, Relay1NameDefault);
-                switchNames[1]  = driverProfile.GetValue(DriverProgId, Relay2NameProfileName, string.Empty, Relay2NameDefault);
-                switchNames[2]  = driverProfile.GetValue(DriverProgId, Relay3NameProfileName, string.Empty, Relay3NameDefault);
-                switchNames[3]  = driverProfile.GetValue(DriverProgId, Relay4NameProfileName, string.Empty, Relay4NameDefault);
-                switchNames[4]  = driverProfile.GetValue(DriverProgId, Relay5NameProfileName, string.Empty, Relay5NameDefault);
-                switchNames[5]  = driverProfile.GetValue(DriverProgId, Relay6NameProfileName, string.Empty, Relay6NameDefault);
-                switchNames[6]  = driverProfile.GetValue(DriverProgId, Relay7NameProfileName, string.Empty, Relay7NameDefault);
-                switchNames[7]  = driverProfile.GetValue(DriverProgId, Relay8NameProfileName, string.Empty, Relay8NameDefault);
+                switchNames[0] = driverProfile.GetValue(DriverProgId, Relay1NameProfileName, string.Empty, Relay1NameDefault);
+                switchNames[1] = driverProfile.GetValue(DriverProgId, Relay2NameProfileName, string.Empty, Relay2NameDefault);
+                switchNames[2] = driverProfile.GetValue(DriverProgId, Relay3NameProfileName, string.Empty, Relay3NameDefault);
+                switchNames[3] = driverProfile.GetValue(DriverProgId, Relay4NameProfileName, string.Empty, Relay4NameDefault);
+                switchNames[4] = driverProfile.GetValue(DriverProgId, Relay5NameProfileName, string.Empty, Relay5NameDefault);
+                switchNames[5] = driverProfile.GetValue(DriverProgId, Relay6NameProfileName, string.Empty, Relay6NameDefault);
+                switchNames[6] = driverProfile.GetValue(DriverProgId, Relay7NameProfileName, string.Empty, Relay7NameDefault);
+                switchNames[7] = driverProfile.GetValue(DriverProgId, Relay8NameProfileName, string.Empty, Relay8NameDefault);
 
-                switchNames[8]  = driverProfile.GetValue(DriverProgId, Input1NameProfileName, string.Empty, Input1NameDefault);
-                switchNames[9]  = driverProfile.GetValue(DriverProgId, Input2NameProfileName, string.Empty, Input2NameDefault);
+                switchNames[8] = driverProfile.GetValue(DriverProgId, Input1NameProfileName, string.Empty, Input1NameDefault);
+                switchNames[9] = driverProfile.GetValue(DriverProgId, Input2NameProfileName, string.Empty, Input2NameDefault);
                 switchNames[10] = driverProfile.GetValue(DriverProgId, Input3NameProfileName, string.Empty, Input3NameDefault);
                 switchNames[11] = driverProfile.GetValue(DriverProgId, Input4NameProfileName, string.Empty, Input4NameDefault);
                 switchNames[12] = driverProfile.GetValue(DriverProgId, Input5NameProfileName, string.Empty, Input5NameDefault);
@@ -987,17 +1007,17 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                 switchNames[14] = driverProfile.GetValue(DriverProgId, Input7NameProfileName, string.Empty, Input7NameDefault);
                 switchNames[15] = driverProfile.GetValue(DriverProgId, Input8NameProfileName, string.Empty, Input8NameDefault);
 
-                switchVisible[0]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay1VisibleProfileName, string.Empty, "true"));
-                switchVisible[1]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay2VisibleProfileName, string.Empty, "true"));
-                switchVisible[2]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay3VisibleProfileName, string.Empty, "true"));
-                switchVisible[3]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay4VisibleProfileName, string.Empty, "true"));
-                switchVisible[4]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay5VisibleProfileName, string.Empty, "true"));
-                switchVisible[5]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay6VisibleProfileName, string.Empty, "true"));
-                switchVisible[6]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay7VisibleProfileName, string.Empty, "true"));
-                switchVisible[7]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay8VisibleProfileName, string.Empty, "true"));
+                switchVisible[0] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay1VisibleProfileName, string.Empty, "true"));
+                switchVisible[1] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay2VisibleProfileName, string.Empty, "true"));
+                switchVisible[2] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay3VisibleProfileName, string.Empty, "true"));
+                switchVisible[3] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay4VisibleProfileName, string.Empty, "true"));
+                switchVisible[4] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay5VisibleProfileName, string.Empty, "true"));
+                switchVisible[5] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay6VisibleProfileName, string.Empty, "true"));
+                switchVisible[6] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay7VisibleProfileName, string.Empty, "true"));
+                switchVisible[7] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Relay8VisibleProfileName, string.Empty, "true"));
 
-                switchVisible[8]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Input1VisibleProfileName, string.Empty, "true"));
-                switchVisible[9]  = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Input2VisibleProfileName, string.Empty, "true"));
+                switchVisible[8] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Input1VisibleProfileName, string.Empty, "true"));
+                switchVisible[9] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Input2VisibleProfileName, string.Empty, "true"));
                 switchVisible[10] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Input3VisibleProfileName, string.Empty, "true"));
                 switchVisible[11] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Input4VisibleProfileName, string.Empty, "true"));
                 switchVisible[12] = Convert.ToBoolean(driverProfile.GetValue(DriverProgId, Input5VisibleProfileName, string.Empty, "true"));

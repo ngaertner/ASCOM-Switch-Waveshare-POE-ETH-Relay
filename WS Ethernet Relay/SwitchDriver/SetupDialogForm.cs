@@ -21,6 +21,9 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             // Save the provided trace logger for use within the setup dialogue
             tl = tlDriver;
 
+            //Read saved profile
+            SwitchHardware.ReadProfile();
+
             // Initialise current values of user settings from the ASCOM Profile
             InitUI();
         }
