@@ -528,7 +528,7 @@ internal class WaveShareRelay
     }
 
 
-    internal byte[] SendCommand(byte[] Command, bool AddRTUChecksum = false)
+    internal byte[] SendCommand(byte[] Command, bool AddRTUChecksum = false, bool AutomaticRetry = true)
     {
         if (Connected())
         {
@@ -541,15 +541,23 @@ internal class WaveShareRelay
             var buffer = new byte[1024];
             try
             {
-                soc.ReceiveTimeout = 1000;
+                soc.ReceiveTimeout = 150;
                 soc.Send(Command);
                 soc.Receive(buffer);
                 return buffer;
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show($"FATAL: Socket Send Error - command: {BitConverter.ToString(Command).Replace(" - ", "")}");
-                return null;
+                
+                if (AutomaticRetry)
+                {
+                    //retry same command once more
+                    return SendCommand(Command, false, false);                    
+                } else
+                {
+                    MessageBox.Show($"FATAL: Socket Send Error - command: {BitConverter.ToString(Command).Replace(" - ", "")} \n {ex.Message}");
+                    return null;
+                }
             }
 
         }
