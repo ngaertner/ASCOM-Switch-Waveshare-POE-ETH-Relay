@@ -5,7 +5,7 @@
 [Setup]
 AppID={{3aa629f8-8f7e-4009-bef0-17729ae288b6}
 AppName=ASCOM Waveshare Switch Driver Switch Driver
-AppVerName=ASCOM Waveshare Switch Driver Switch Driver 0.0.1
+AppVerName=ASCOM Waveshare Switch Driver Switch Driver 0.0.2
 AppVersion=0.0.1
 AppPublisher=Nico Gaertner - AstroNico <n/a>
 AppPublisherURL=mailto:n/a
