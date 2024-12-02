@@ -32,7 +32,7 @@ Typical use-cases are to control devices and digital inputs within a (remote) ob
 
 **Note:** I highly recommend to use the new "B" revision model, to make full use of the digital input functionality.
 
-### Software Features at a glance
+### Software Features at a Glance
 
 * Full control of naming and visibility of the hardware relays and Inputs in the ASCOM driver
 * Toggle setting to automatically flash a relay on/off (e.g. for triggering actions like the control a roll-off roof)
