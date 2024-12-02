@@ -81,6 +81,11 @@ internal class WaveShareRelay
         {
             Disconnect();
         }
+        if (soc != null)
+        {
+            soc.Dispose();
+            soc = null;
+        }
     }
 
     internal bool Connect(string ipAddress, int ipPort)
@@ -105,7 +110,11 @@ internal class WaveShareRelay
         else
         {
             // NOTE, MUST CLOSE THE SOCKET
-            soc.Close();
+            if (asyncSocketHandle != null)
+            {
+                soc.EndConnect(asyncSocketHandle);
+            }
+            soc.Close();            
             connected = false;
         }
 
@@ -113,7 +122,10 @@ internal class WaveShareRelay
 
         lastRefreshTime = DateTime.MinValue;
 
-        if (connected) RefreshStates();
+        if (connected)
+        {
+            RefreshStates();
+        }
 
         return connected;
 
@@ -121,20 +133,20 @@ internal class WaveShareRelay
 
     internal void Disconnect()
     {
-        if (soc != null && soc.Connected)
+        if (soc != null)
         {
 
-            if (asyncSocketHandle != null)
+            if (soc.Connected)
             {
-                soc.EndConnect(asyncSocketHandle);
-            }
-            soc.Close();
-            soc.Shutdown(SocketShutdown.Both);
-            soc.Disconnect(true);
-        }
 
-        soc.Dispose();
-        soc = null;
+                if (asyncSocketHandle != null)
+                {
+                    soc.EndConnect(asyncSocketHandle);
+                }
+                soc.Shutdown(SocketShutdown.Both);
+                soc.Close();
+            }
+        }
         connected = false;
     }
 
@@ -142,7 +154,9 @@ internal class WaveShareRelay
     {
 
         if (soc == null)
+        {
             connected = false;
+        }
         else
         {
             if (connected && soc.Connected)
@@ -161,6 +175,12 @@ internal class WaveShareRelay
 
     internal bool SetRelayState(short id, bool state, bool flash = false)
     {
+
+
+        if (!connected)
+        {
+            return false;
+        }
 
         byte[] command;
         if (flash)
@@ -239,6 +259,12 @@ internal class WaveShareRelay
 
     internal bool SetRelayMode(short id, short mode)
     {
+
+        if (!connected)
+        {
+            return false;
+        }
+
         byte[] command;
 
         switch (mode)
@@ -332,7 +358,7 @@ internal class WaveShareRelay
     internal byte[] prepareRTUCommand(byte[] command)
     {
         //var crc = Crc16.ComputeChecksum(command);
-        var crc = ModRTU_CRC(command,command.Length);
+        var crc = ModRTU_CRC(command, command.Length);
         byte[] crcByte = new byte[2];
         crcByte[0] = (byte)crc;
         crcByte[1] = (byte)(crc >> 8);
@@ -343,6 +369,12 @@ internal class WaveShareRelay
 
     internal bool RefreshStates(bool ForceRefresh = false)
     {
+
+        if (!connected)
+        {
+            return false;
+        }
+
         byte[] buffer;
 
         TimeSpan refreshDiffMilliseconds = DateTime.Now - lastRefreshTime;
@@ -361,7 +393,7 @@ internal class WaveShareRelay
                 }
                 else
                 {
-                    buffer = SendCommand(commandRTURelayStatus,true);
+                    buffer = SendCommand(commandRTURelayStatus, true);
                 }
 
 
@@ -449,7 +481,7 @@ internal class WaveShareRelay
     }
 
 
-    internal byte[] SendCommand(byte[] Command, bool AddRTUChecksum = false )
+    internal byte[] SendCommand(byte[] Command, bool AddRTUChecksum = false)
     {
         if (Connected())
         {
@@ -458,7 +490,7 @@ internal class WaveShareRelay
             {
                 Command = prepareRTUCommand(Command);
             }
-            
+
             var buffer = new byte[1024];
             try
             {
@@ -466,7 +498,6 @@ internal class WaveShareRelay
                 soc.Send(Command);
                 soc.Receive(buffer);
                 return buffer;
-
             }
             catch
             {

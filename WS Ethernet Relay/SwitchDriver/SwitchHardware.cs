@@ -18,7 +18,6 @@ using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
 using System.Windows.Forms;
 
 
@@ -345,22 +344,25 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             try
             {
                 // Clean up the trace logger and utility objects
-                tl.Enabled = false;
-                tl.Dispose();
+                if (tl != null)
+                {
+                    tl.Enabled = false;
+                    tl.Dispose();
+                }
                 tl = null;
             }
             catch { }
 
             try
             {
-                utilities.Dispose();
+                if (utilities != null) utilities.Dispose();
                 utilities = null;
             }
             catch { }
 
             try
             {
-                astroUtilities.Dispose();
+                if (astroUtilities != null) astroUtilities.Dispose();
                 astroUtilities = null;
             }
             catch { }
@@ -368,7 +370,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
             try
             {
-                Relay.Dispose();
+                if (Relay != null)  Relay.Dispose();
                 Relay = null;
             }
             catch { }
@@ -406,9 +408,8 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                     {
                         connectedState = true;
                     } else {
-                        connectedState = false;
+                        Connected = false;                        
                         LogMessage("Connected Set", $"Disconnecting to ip {ipAddress}:{ipPort}");
-                        connectedState = false;
                         throw new DriverException("Failed to connect server.");
                     }
 
@@ -424,7 +425,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
                         if (Relay.SetRelayMode(intId, switchModes[intId]) == false)
                         {
-                            connectedState = false;
+                            Connected = false;
                             throw new DriverException("Failed to read relay status from server.");                            
                         }
 
@@ -433,7 +434,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
                     // initialize switch status
                     if (Relay.RefreshStates(true) == false) {
-                        connectedState = false;
+                        Connected = false;
                         throw new DriverException("Failed to read relay status from server.");
                     }
                     
@@ -446,7 +447,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
                     }
                     catch
                     {
-                        connectedState = false;
+                        Connected = false;
                         throw new DriverException("Failed to read relay status from server.");
                     }
 
@@ -746,7 +747,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
             Validate("GetSwitch", id);
 
-            if (connectedState == false)
+            if (IsConnected == false)
             {
                 return false;
             }
@@ -779,12 +780,17 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
         internal static void SetSwitch(short id, bool state)
         {
 
-            if (GetSwitch(id,true) == state) {
+            Validate("SetSwitch", id);
+
+            if (IsConnected == false)
+            {
                 return;
             }
 
-            Validate("SetSwitch", id);
-
+            if (GetSwitch(id,true) == state) {
+                return;
+            }
+            
             var intId = switchVisibleMapping[id];
 
             if (switchModes[intId] == SwitchModeLinkage)
