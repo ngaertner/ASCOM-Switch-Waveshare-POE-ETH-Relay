@@ -34,7 +34,7 @@ Typical use-cases are to control devices and digital inputs within a (remote) ob
 
 ### Software Features at a Glance
 
-* Full control of naming and visibility of the hardware relays and Inputs in the ASCOM driver
+* Full control of naming and visibility of the hardware relays and inputs in the ASCOM driver
 * Toggle setting to automatically flash a relay on/off (e.g. for triggering actions like the control a roll-off roof)
 * Reading of digital sensors (e.g. rain sensors, safety circuits or limit switches)
 * Different linkage types between digital inputs and relays (e.g. for safety circuits or to react on environmental conditions)
