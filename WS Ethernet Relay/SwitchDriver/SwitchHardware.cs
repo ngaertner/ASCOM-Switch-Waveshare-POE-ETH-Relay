@@ -820,7 +820,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
 
             if (Relay.SetRelayState(intId, state, switchToggle[intId]) == false)
             {
-                if (Relay.RefreshStates() == false)
+                if (Relay.RefreshStates(true) == false)
                 {
                     throw new DriverException($"Switch could not be read: {id}");
                 }
