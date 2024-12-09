@@ -35,7 +35,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
     [ComVisible(true)]
     [Guid("7fa74dd0-fd90-4b28-bc0b-b06262d0b770")]
     [ProgId("ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch")]
-    [ServedClassName("Waveshare Modbus POE ETH Relay")] // Driver description that appears in the Chooser, customise as required
+    [ServedClassName("AstroNico Waveshare Ethernet Relay")] // Driver description that appears in the Chooser, customise as required
     [ClassInterface(ClassInterfaceType.None)]
     public class Switch : ReferenceCountedObjectBase, ISwitchV2, IDisposable
     {
