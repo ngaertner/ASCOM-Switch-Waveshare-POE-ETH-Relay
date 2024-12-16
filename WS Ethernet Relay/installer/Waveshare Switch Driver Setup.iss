@@ -6,7 +6,7 @@
 AppID={{7fa74dd0-fd90-4b28-bc0b-b06262d0b770}
 AppName=ASCOM AstroNico Waveshare Switch Driver Switch Driver
 AppVerName=ASCOM AstroNico Waveshare Switch Driver Switch Driver 0.0.3
-AppVersion=0.0.3
+AppVersion=0.0.4
 AppPublisher=Nico Gaertner - AstroNico <n/a>
 AppPublisherURL=mailto:n/a
 AppSupportURL=https://ascomtalk.groups.io/g/Help
@@ -36,7 +36,7 @@ Name: "{cf}\ASCOM\Uninstall\Switch\Waveshare Switch Driver"
 [Files]
 Source: "C:\Users\ngaer\source\repos\WS Ethernet Relay\WS Ethernet Relay\bin\Release\ASCOM.Waveshare_Modbus_POE_ETH_Relay.exe"; DestDir: "{app}" ;AfterInstall: RegASCOM()
 ; Require a read-me HTML to appear after installation, maybe driver's Help doc
-//Source: "C:\Users\ngaer\source\repos\WS Ethernet Relay\WS Ethernet Relay\bin\Release\README.html"; DestDir: "{app}"; Flags: isreadme
+//Source: "C:\Users\ngaer\source\repos\WS Ethernet Relay\WS Ethernet Relay\bin\Release\readme.txt"; DestDir: "{app}"; Flags: isreadme
 ; TODO: Add other files needed by your driver here (add subfolders above)
 
 ;Only if COM Local Server

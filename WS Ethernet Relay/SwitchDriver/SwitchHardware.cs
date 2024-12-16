@@ -506,7 +506,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             get
             {
                 Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                string driverInfo = $"Information about the driver itself. Version: {version.Major}.{version.Minor}";
+                string driverInfo = $"AstroNico Switch Driver for Waveshare Modbus ETH Relays. Version: {version.Major}.{version.Minor}.{version.Revision}";
                 LogMessage("DriverInfo Get", driverInfo);
                 return driverInfo;
             }
@@ -520,7 +520,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             get
             {
                 Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-                string driverVersion = $"{version.Major}.{version.Minor}";
+                string driverVersion = $"{version.Major}.{version.Minor}.{version.Revision}";
                 LogMessage("DriverVersion Get", driverVersion);
                 return driverVersion;
             }
