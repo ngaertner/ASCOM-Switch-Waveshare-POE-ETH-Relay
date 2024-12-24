@@ -118,7 +118,7 @@ internal class WaveShareRelay
             {
                 soc.EndConnect(asyncSocketHandle);
             }
-            soc.Close();            
+            soc.Close();
             connected = false;
         }
 
@@ -177,7 +177,7 @@ internal class WaveShareRelay
         return connected;
     }
 
-    
+
     internal bool SetRelayState(short id, bool state, bool flash = false)
     {
 
@@ -241,6 +241,7 @@ internal class WaveShareRelay
         }
 
 
+
         if (deviceProtocol == ProtocolTypeModBusTCP)
         {
             //modify 10th byte of the command to set the requested switch number
@@ -270,7 +271,7 @@ internal class WaveShareRelay
         }
 
         byte[] command;
-        
+
 
         if (deviceProtocol == ProtocolTypeModBusTCP)
         {
@@ -527,42 +528,61 @@ internal class WaveShareRelay
         return 8;
     }
 
+    static readonly object _lock = new object();
 
-    internal byte[] SendCommand(byte[] Command, bool AddRTUChecksum = false, bool AutomaticRetry = true)
+    internal byte[] SendCommand(byte[] Command, bool AddRTUChecksum = false, bool AutomaticRetry = true, int Timeout = 150 )
     {
+        bool exceptionOccurred = false;
+        bool retry = false;
+        string exceptionMessage = string.Empty;
         if (Connected())
         {
 
-            if (AddRTUChecksum)
+            lock (_lock) // make it thread safe..
             {
-                Command = prepareRTUCommand(Command);
-            }
+                if (AddRTUChecksum)
+                {
+                    Command = prepareRTUCommand(Command);
+                }
 
-            var buffer = new byte[1024];
-            try
-            {
-                soc.ReceiveTimeout = 150;
-                soc.Send(Command);
-                soc.Receive(buffer);
-                return buffer;
-            }
-            catch (Exception ex)
-            {
-                
-                if (AutomaticRetry)
+                var buffer = new byte[1024];
+                try
                 {
-                    //retry same command once more
-                    return SendCommand(Command, false, false);                    
-                } else
+                    soc.ReceiveTimeout = Timeout;
+                    soc.Send(Command);
+                    soc.Receive(buffer);
+                    return buffer;
+                }
+                catch (Exception ex)
                 {
-                    MessageBox.Show($"FATAL: Socket Send Error - command: {BitConverter.ToString(Command).Replace(" - ", "")} \n {ex.Message}");
-                    return null;
+
+                    if (AutomaticRetry)
+                    {
+                        //retry same command once more
+                        retry = true;
+                    }
+                    else
+                    {
+                        exceptionMessage = ex.Message;
+                        exceptionOccurred = true;
+                    }
                 }
             }
-
+            if (retry)
+            {
+                return SendCommand(Command, false, false, 500); //retry with a higher timeout
+            }
+            
+            if (exceptionOccurred)
+            {
+                //show message outside of lock block
+                MessageBox.Show($"FATAL: Socket Send Error - command: {BitConverter.ToString(Command).Replace(" - ", "")} \n {exceptionMessage}");
+            } else
+            {
+                MessageBox.Show("ok");
+            }
         }
-        else { return null; }
-
+        return null;
     }
 
     UInt16 ModRTU_CRC(byte[] buf, int len)

@@ -604,7 +604,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.panelInput.Enabled = false;
             this.panelInput.Location = new System.Drawing.Point(377, 72);
             this.panelInput.Name = "panelInput";
-            this.panelInput.Size = new System.Drawing.Size(392, 229);
+            this.panelInput.Size = new System.Drawing.Size(381, 229);
             this.panelInput.TabIndex = 23;
             // 
             // comboInput8Mode
@@ -1070,7 +1070,7 @@ namespace ASCOM.Waveshare_Modbus_POE_ETH_Relay.Switch
             this.Name = "SetupDialogForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "WaveshareModbus POE ETH Relay Setup";
+            this.Text = "AstroNico Waveshare Modbus PoE Ethernet Relay Setup";
             this.Load += new System.EventHandler(this.SetupDialogForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picASCOM)).EndInit();
             this.panelInput.ResumeLayout(false);
