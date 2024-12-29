@@ -11,6 +11,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Linq.Expressions;
+using System.Threading;
 
 internal class WaveShareRelay
 {
@@ -534,7 +535,8 @@ internal class WaveShareRelay
     {
         bool exceptionOccurred = false;
         bool retry = false;
-        string exceptionMessage = string.Empty;
+        string exceptionMessage = "";
+        var buffer = new byte[1024];
         if (Connected())
         {
 
@@ -545,13 +547,11 @@ internal class WaveShareRelay
                     Command = prepareRTUCommand(Command);
                 }
 
-                var buffer = new byte[1024];
                 try
                 {
                     soc.ReceiveTimeout = Timeout;
                     soc.Send(Command);
                     soc.Receive(buffer);
-                    return buffer;
                 }
                 catch (Exception ex)
                 {
@@ -579,10 +579,10 @@ internal class WaveShareRelay
                 MessageBox.Show($"FATAL: Socket Send Error - command: {BitConverter.ToString(Command).Replace(" - ", "")} \n {exceptionMessage}");
             } else
             {
-                MessageBox.Show("ok");
+                return buffer;
             }
         }
-        return null;
+        return null;        
     }
 
     UInt16 ModRTU_CRC(byte[] buf, int len)
