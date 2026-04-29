@@ -570,7 +570,7 @@ internal class WaveShareRelay
             }
             if (retry)
             {
-                return SendCommand(Command, false, false, 500); //retry with a higher timeout
+                return SendCommand(Command, false, false, 2500); //retry with a higher timeout
             }
             
             if (exceptionOccurred)
